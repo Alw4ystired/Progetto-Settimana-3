@@ -19,7 +19,7 @@ REGOLE
 
 /* SCRIVI QUI LA TUA RISPOSTA */
 
-const listaFilm = [
+const film = [
    {
    nome: 'Le ali della libertà',
    regista: 'Frank Darabont',
@@ -57,6 +57,15 @@ const listaFilm = [
 },
 ]
 
+const movieForm = document.querySelector('#movieForm');
+const listaFilm = document.querySelector('#listaFilm');
+const searchBar = document.querySelector('#searchBar');
+const themeToggle = document.querySelector('#themeToggle');
+
+const totalCount = document.querySelector('#totalCount');
+const watchedCount = document.querySelector('#watchedCount');
+const toWatchCount = document.querySelector('#toWatchCount');
+const progressBar = document.querySelector('#progressBar');
 
 /* RENDER()
    Una sola funzione che ridipinge la lista. A ogni chiamata:
@@ -116,6 +125,16 @@ const listaFilm = [
    Un button che chiama document.body.classList.toggle("dark").
    In CSS scrivi le regole opposte (es. body.dark { background: #111; ... }).
 */
+
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+
+  if (document.body.classList.contains('dark-mode')) {
+    themeToggle.textContent = 'Tema chiaro';
+  } else {
+    themeToggle.textContent = 'Tema scuro';
+  }
+});
 
 /* SCRIVI QUI LA TUA RISPOSTA */
 

@@ -191,3 +191,36 @@ footer {
   color: #888;
   font-size: 0.8rem;
 }
+
+/* Tema scuro */
+
+body.dark-mode .progress-container {
+  background: #333;
+}
+
+body.dark-mode .film-item {
+  background: #121212;
+}
+
+body.dark-mode .film-info h3 {
+  color: #f3f4f6;
+}
+
+body.dark-mode .btn-action {
+  background: #333;
+  color: #f3f4f6;
+}
+
+body.dark-mode .btn-action:hover {
+  background: #444;
+}
+
+body.dark-mode .badge.da-guardare {
+  background: #78350f;
+  color: #fde68a;
+}
+
+body.dark-mode .badge.visto {
+  background: #064e3b;
+  color: #a7f3d0;
+}

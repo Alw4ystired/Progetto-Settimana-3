@@ -9,53 +9,44 @@ REGOLE
 */
 
 
-/* STATO
-   In cima al file definisci poche variabili globali:
-   - un array di oggetti come dato principale (es. libri, ricette, film, ...)
-   - una variabile per il filtro corrente
-   - una variabile per l'ordinamento corrente
-   - una variabile per la stringa di ricerca corrente
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
-
 const film = [
    {
-   nome: 'Le ali della libertà',
-   regista: 'Frank Darabont',
-   anno: '1994',
-   id: Date.now()
-
-},
+      titolo: 'Le ali della libertà',
+      regista: 'Frank Darabont',
+      anno: 1994,
+      id: Date.now() + 1,
+      stato: 'Da guardare'
+   },
    {
-   nome: 'Il padrino',
-   regista: 'Francis Ford Coppola',
-   anno: '1972',
-   id: Date.now()
-
-},
+      titolo: 'Il padrino',
+      regista: 'Francis Ford Coppola',
+      anno: 1972,
+      id: Date.now() + 2,
+      stato: 'Visto'
+   },
    {
-   nome: 'Il cavaliere oscuro',
-   regista: 'Christopher Nolan',
-   anno: '2008',
-   id: Date.now()
-
-},
+      titolo: 'Il cavaliere oscuro',
+      regista: 'Christopher Nolan',
+      anno: 2008,
+      id: Date.now() + 3,
+      stato: 'Da guardare'
+   },
    {
-   nome: 'Pulp Fiction',
-   regista: 'Quentin Tarantino',
-   anno: '1994',
-   id: Date.now()
-
-},
+      titolo: 'Pulp Fiction',
+      regista: 'Quentin Tarantino',
+      anno: 1994,
+      id: Date.now() + 4,
+      stato: 'Visto'
+   },
    {
-   nome: 'Inception',
-   regista: 'Christopher Nolan',
-   anno: '2010',
-   id: Date.now()
+      titolo: 'Inception',
+      regista: 'Christopher Nolan',
+      anno: 2010,
+      id: Date.now() + 5,
+      stato: 'Visto'
+   }
+];
 
-},
-]
 
 const movieForm = document.querySelector('#movieForm');
 const listaFilm = document.querySelector('#listaFilm');
@@ -67,119 +58,194 @@ const watchedCount = document.querySelector('#watchedCount');
 const toWatchCount = document.querySelector('#toWatchCount');
 const progressBar = document.querySelector('#progressBar');
 
-/* RENDER()
-   Una sola funzione che ridipinge la lista. A ogni chiamata:
-   1) parte dall'array completo,
-   2) filtra,
-   3) ordina,
-   4) svuota il container DOM,
-   5) ricrea gli elementi DOM per gli oggetti risultanti.
-   Aggiorna anche conteggi e statistiche.
-   Salva lo stato in localStorage in fondo a render() (cerca tu come funziona).
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
-
-
-/* FORM CON VALIDAZIONE
-   addEventListener("submit") sul form.
-   event.preventDefault().
-   Leggi i valori con .value.trim().
-   Se uno dei campi obbligatori e' vuoto, mostra errore e return.
-   Altrimenti push allo stato, form.reset(), render().
-   Id univoco con Date.now().
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
-
-
-/* INTERAZIONI BASE — eliminare, modificare, contare
-   - Elimina: filter per id, render(). Event delegation sul container.
-   - Modifica in-place: button "Modifica". Al click il testo diventa <input>,
-     si conferma con Invio o blur.
-   - Conteggi dinamici dentro render().
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
-
-
-/* RICERCA, FILTRO, ORDINAMENTO
-   - Ricerca live: <input> con event "input". Salva in stato e render().
-   - Filtro: <select> con event "change". Salva in stato e render().
-   - Ordinamento: due button (o select). Salva in stato e render().
-   I tre si compongono dentro render() in fila.
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
-
-
-/* NOTIFICHE TEMPORANEE
-   Funzione notifica(testo) che imposta il testo del <div id="notifica">,
-   lo mostra (display: block), poi dopo 3000ms (setTimeout) lo nasconde.
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
-
-
-/* TEMA CHIARO/SCURO
-   Un button che chiama document.body.classList.toggle("dark").
-   In CSS scrivi le regole opposte (es. body.dark { background: #111; ... }).
-*/
-
+//Cambio tema
 themeToggle.addEventListener('click', () => {
-  document.body.classList.toggle('dark-mode');
+   document.body.classList.toggle('dark-mode');
 
-  if (document.body.classList.contains('dark-mode')) {
-    themeToggle.textContent = 'Tema chiaro';
-  } else {
-    themeToggle.textContent = 'Tema scuro';
-  }
+   if (document.body.classList.contains('dark-mode')) {
+      themeToggle.textContent = 'Tema chiaro';
+   } else {
+      themeToggle.textContent = 'Tema scuro';
+   }
 });
 
-/* SCRIVI QUI LA TUA RISPOSTA */
+//Aggiunta di film
+movieForm.addEventListener('submit', (e) => {
+   e.preventDefault();
+
+   const titoloInput = document.querySelector('#titolo').value.trim();
+   const registaInput = document.querySelector('#regista').value.trim();
+   const annoInput = document.querySelector('#anno').value.trim();
+   const statoInput = document.querySelector('#stato').value;
+
+   if (titoloInput === '' || registaInput === '' || annoInput === '') {
+      return;
+   }
+
+   const newFilm = {
+      id: Date.now(),
+      titolo: titoloInput,
+      regista: registaInput,
+      anno: Number(annoInput),
+      stato: statoInput
+   };
+
+   film.push(newFilm);
+   movieForm.reset();
+   render(searchBar.value);
+});
+
+// Form ricerca
+searchBar.addEventListener('input', (e) => {
+   render(e.target.value);
+});
+
+//Lista film e statistiche
+function render(searchTerm = '') {
+   // Filtro per titolo o regista
+   const filteredFilms = film.filter((f) => {
+      const titoloOk = f.titolo.toLowerCase().includes(searchTerm.toLowerCase());
+      const registaOk = f.regista.toLowerCase().includes(searchTerm.toLowerCase());
+      return titoloOk || registaOk;
+   });
+
+   listaFilm.textContent = '';
+
+   if (filteredFilms.length === 0) {
+      const p = document.createElement('p');
+      p.textContent = 'Nessun film trovato.';
+      p.style.textAlign = 'center';
+      p.style.color = '#888';
+      listaFilm.appendChild(p);
+   } else {
+      filteredFilms.forEach((f) => {
+         const filmItem = document.createElement('div');
+         filmItem.className = 'film-item';
+
+         if (f.stato === 'Visto') {
+            filmItem.classList.add('visto');
+         }
+
+         // Colonna info
+         const filmInfo = document.createElement('div');
+         filmInfo.className = 'film-info';
+
+         const h3 = document.createElement('h3');
+         h3.textContent = f.titolo;
+
+         const p = document.createElement('p');
+         p.textContent = f.regista + ' — ' + f.anno;
+
+         filmInfo.appendChild(h3);
+         filmInfo.appendChild(p);
+
+         // Colonna azioni
+         const filmActions = document.createElement('div');
+         filmActions.className = 'film-actions';
+
+         // Badge
+         const badge = document.createElement('span');
+         badge.className = 'badge';
+         if (f.stato === 'Visto') {
+            badge.classList.add('visto');
+         } else {
+            badge.classList.add('da-guardare');
+         }
+         badge.textContent = f.stato;
+
+         // Bottone Toggle
+         const btnToggle = document.createElement('button');
+         btnToggle.setAttribute('type', 'button');
+         btnToggle.className = 'btn-action btn-toggle';
+         btnToggle.setAttribute('id', 'toggle-' + f.id);
+         if (f.stato === 'Visto') {
+            btnToggle.textContent = 'Segna da guardare';
+         } else {
+            btnToggle.textContent = 'Segna visto';
+         }
+
+         // Bottone Elimina
+         const btnElimina = document.createElement('button');
+         btnElimina.setAttribute('type', 'button');
+         btnElimina.className = 'btn-action btn-elimina';
+         btnElimina.setAttribute('id', 'elimina-' + f.id);
+         btnElimina.textContent = 'Elimina';
+
+         filmActions.appendChild(badge);
+         filmActions.appendChild(btnToggle);
+         filmActions.appendChild(btnElimina);
+
+         filmItem.appendChild(filmInfo);
+         filmItem.appendChild(filmActions);
+
+         listaFilm.appendChild(filmItem);
+      });
+   }
+
+   updateStats();
+}
+
+//Barra dinamica
+function updateStats() {
+   const total = film.length;
+
+   const watched = film.filter((f) => f.stato === 'Visto').length;
+   const toWatch = total - watched;
+
+   let percentuale = 0;
+
+   if (total > 0) {
+      percentuale = (watched / total) * 100;
+   }
+
+   totalCount.textContent = total;
+   watchedCount.textContent = watched;
+   toWatchCount.textContent = toWatch;
+   progressBar.style.width = percentuale + '%';
+}
+
+// Click sulla lista
+listaFilm.addEventListener('click', (e) => {
+   if (e.target.type === 'button') {
+
+      const fullId = e.target.id;
+
+      const isToggle = fullId.startsWith('toggle-');
+      const isElimina = fullId.startsWith('elimina-');
 
 
-/* PERSISTENZA — localStorage (cerca tu su MDN)
-   - In fondo a render(), salva lo stato:
-       localStorage.setItem("dati", JSON.stringify(stato));
-   - All'avvio, prima della prima render(), carica:
-       const salvato = localStorage.getItem("dati");
-       if (salvato) stato = JSON.parse(salvato);
-*/
+      let stringId = fullId.replace('toggle-', '');
+      stringId = stringId.replace('elimina-', '');
 
-/* SCRIVI QUI LA TUA RISPOSTA */
+      const realId = Number(stringId);
 
-
-/* RIORDINO ↑ ↓
-   Due button su ogni elemento. Click su ↑ scambia con il precedente nell'array,
-   ↓ con il successivo. Event delegation. Poi render().
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
+      let index = -1;
+      for (let i = 0; i < film.length; i++) {
+         if (film[i].id === realId) {
+            index = i;
+            break;
+         }
+      }
 
 
-/* STATISTICHE GRAFICHE
-   Almeno due indicatori: contatori grandi e/o barre orizzontali
-   (<div> con width: X% in base al dato). Aggiorna dentro render().
-*/
+      if (index !== -1) {
 
-/* SCRIVI QUI LA TUA RISPOSTA */
+         if (isToggle) {
+            if (film[index].stato === 'Visto') {
+               film[index].stato = 'Da guardare';
+            } else {
+               film[index].stato = 'Visto';
+            }
+         }
 
+         if (isElimina) {
+            film.splice(index, 1);
+         }
 
-/* MULTI-VISTA — lista / card / tabella
-   Una variabile globale "vista" che render() legge per decidere quale HTML
-   produrre. Tre button cambiano "vista" e chiamano render().
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
-
-
-/* CATEGORIE
-   Aggiungi un campo categoria nello schema. Nel form un <select> per sceglierla.
-   In render(), raggruppa con reduce in { categoria: [elementi] } e disegna un
-   header per categoria con sotto la lista di quella categoria.
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
+         render(searchBar.value);
+      }
+   }
+});
 
 
+render();

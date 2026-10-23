@@ -50,6 +50,7 @@ const film = [
 const movieForm = document.querySelector('#movieForm');
 const listaFilm = document.querySelector('#listaFilm');
 const searchBar = document.querySelector('#searchBar');
+const filterStato = document.querySelector('#filterStato');
 const themeToggle = document.querySelector('#themeToggle');
 
 const totalCount = document.querySelector('#totalCount');
@@ -92,24 +93,38 @@ movieForm.addEventListener('submit', (e) => {
    film.push(newFilm);
    movieForm.reset();
 
-   // NOTIFICA AGGIUNTA
    mostraNotifica('Hai aggiunto un nuovo film', 'successo');
 
-   render(searchBar.value);
+   render(searchBar.value, filterStato.value);
 });
 
-// Form ricerca
+// Ricerca live
 searchBar.addEventListener('input', (e) => {
-   render(e.target.value);
+   render(e.target.value, filterStato.value);
+});
+
+// Filtro per stato
+filterStato.addEventListener('change', (e) => {
+   render(searchBar.value, e.target.value);
 });
 
 // Lista film e statistiche
-function render(searchTerm = '') {
-   // Filtro per titolo o regista
+function render(searchTerm = '', statoFiltro = 'Tutti') {
+   // Filtro combinato (testo + stato)
    const filteredFilms = film.filter((f) => {
       const titoloOk = f.titolo.toLowerCase().includes(searchTerm.toLowerCase());
       const registaOk = f.regista.toLowerCase().includes(searchTerm.toLowerCase());
-      return titoloOk || registaOk;
+      const testoOk = titoloOk || registaOk;
+
+      let statoOk = false;
+      if (statoFiltro === 'Tutti') {
+         statoOk = true;
+      } else if (f.stato === statoFiltro) {
+         statoOk = true;
+      }
+
+      // Il film passa solo se supera entrambi i controlli
+      return testoOk && statoOk;
    });
 
    listaFilm.textContent = '';
@@ -252,16 +267,15 @@ listaFilm.addEventListener('click', (e) => {
             } else {
                film[index].stato = 'Visto';
             }
-            render(searchBar.value);
+            render(searchBar.value, filterStato.value);
          }
 
          if (isElimina) {
             film.splice(index, 1);
 
-            // NOTIFICA ELIMINAZIONE
             mostraNotifica('Hai eliminato un film', 'errore');
 
-            render(searchBar.value);
+            render(searchBar.value, filterStato.value);
          }
 
          if (isModifica) {
@@ -292,13 +306,13 @@ listaFilm.addEventListener('click', (e) => {
                mostraNotifica('Hai modificato un film', 'successo');
             }
 
-            render(searchBar.value);
+            render(searchBar.value, filterStato.value);
          }
       }
    }
 });
 
-// Funzione notifica
+// Funzione per mostrare la notifica
 function mostraNotifica(testo, tipo = "successo") {
    const notificaDiv = document.getElementById("notifica");
 
@@ -318,9 +332,9 @@ function mostraNotifica(testo, tipo = "successo") {
    notificaDiv.style.boxShadow = "0 4px 6px rgba(0,0,0,0.15)";
 
    if (tipo === "successo") {
-      notificaDiv.style.backgroundColor = "#16a34a"; // Verde
+      notificaDiv.style.backgroundColor = "#16a34a";
    } else {
-      notificaDiv.style.backgroundColor = "#dc2626"; // Rosso
+      notificaDiv.style.backgroundColor = "#dc2626";
    }
 
    if (window.timerNotifica) {
@@ -331,5 +345,6 @@ function mostraNotifica(testo, tipo = "successo") {
       notificaDiv.style.display = "none";
    }, 3000);
 }
+
 
 render();

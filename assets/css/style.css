@@ -83,6 +83,7 @@ section {
   padding: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   margin-bottom: 1.5rem;
+  overflow: hidden; 
 }
 
 section h2 {
@@ -126,9 +127,23 @@ section h2 {
   background: #162c47;
 }
 
-/* Ricerca */
+/* Ricerca e Filtro */
+
 #searchBar {
-  width: 100%;
+  float: left;
+  width: 74%;     
+  margin-right: 1%;
+  padding: 0.6rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  background: #f3f4f6;
+  color: #111;
+}
+
+#filterStato {
+  float: left;
+  width: 24%;
+  margin-right: 0;
   padding: 0.6rem;
   border: 1px solid #e5e7eb;
   border-radius: 4px;
@@ -164,9 +179,10 @@ section h2 {
 .percentuale-label {
   float: left;
   width: auto;
-  margin-left: 2%;
+  margin-left: 0rem; 
   margin-top: 0.9rem;
   margin-right: 1rem;
+  margin-bottom: -0.3rem;
 }
 
 .progress-container {
@@ -193,6 +209,7 @@ section h2 {
   padding: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   margin-bottom: 1.5rem;
+  overflow: hidden;
 }
 
 .film-item {
@@ -293,7 +310,8 @@ body.dark-mode section h2 {
 
 body.dark-mode .input-group input,
 body.dark-mode .input-group select,
-body.dark-mode #searchBar {
+body.dark-mode #searchBar,
+body.dark-mode #filterStato {
   background: #121212;
   border-color: #333;
   color: #f3f4f6;

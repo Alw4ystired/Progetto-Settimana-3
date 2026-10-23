@@ -47,7 +47,6 @@ const film = [
    }
 ];
 
-
 const movieForm = document.querySelector('#movieForm');
 const listaFilm = document.querySelector('#listaFilm');
 const searchBar = document.querySelector('#searchBar');
@@ -58,7 +57,7 @@ const watchedCount = document.querySelector('#watchedCount');
 const toWatchCount = document.querySelector('#toWatchCount');
 const progressBar = document.querySelector('#progressBar');
 
-//Cambio tema
+// Cambio tema
 themeToggle.addEventListener('click', () => {
    document.body.classList.toggle('dark-mode');
 
@@ -69,7 +68,7 @@ themeToggle.addEventListener('click', () => {
    }
 });
 
-//Aggiunta di film
+// Aggiunta di film
 movieForm.addEventListener('submit', (e) => {
    e.preventDefault();
 
@@ -92,6 +91,10 @@ movieForm.addEventListener('submit', (e) => {
 
    film.push(newFilm);
    movieForm.reset();
+
+   // NOTIFICA AGGIUNTA
+   mostraNotifica('Hai aggiunto un nuovo film', 'successo');
+
    render(searchBar.value);
 });
 
@@ -100,7 +103,7 @@ searchBar.addEventListener('input', (e) => {
    render(e.target.value);
 });
 
-//Lista film e statistiche
+// Lista film e statistiche
 function render(searchTerm = '') {
    // Filtro per titolo o regista
    const filteredFilms = film.filter((f) => {
@@ -122,6 +125,8 @@ function render(searchTerm = '') {
          const filmItem = document.createElement('div');
          filmItem.className = 'film-item';
 
+         filmItem.setAttribute('id', 'card-' + f.id);
+
          if (f.stato === 'Visto') {
             filmItem.classList.add('visto');
          }
@@ -132,6 +137,7 @@ function render(searchTerm = '') {
 
          const h3 = document.createElement('h3');
          h3.textContent = f.titolo;
+         h3.setAttribute('id', 'titolo-testo-' + f.id);
 
          const p = document.createElement('p');
          p.textContent = f.regista + ' — ' + f.anno;
@@ -164,6 +170,13 @@ function render(searchTerm = '') {
             btnToggle.textContent = 'Segna visto';
          }
 
+         // Bottone Modifica
+         const btnModifica = document.createElement('button');
+         btnModifica.setAttribute('type', 'button');
+         btnModifica.className = 'btn-action btn-modifica';
+         btnModifica.setAttribute('id', 'modifica-' + f.id);
+         btnModifica.textContent = 'Modifica';
+
          // Bottone Elimina
          const btnElimina = document.createElement('button');
          btnElimina.setAttribute('type', 'button');
@@ -173,6 +186,7 @@ function render(searchTerm = '') {
 
          filmActions.appendChild(badge);
          filmActions.appendChild(btnToggle);
+         filmActions.appendChild(btnModifica);
          filmActions.appendChild(btnElimina);
 
          filmItem.appendChild(filmInfo);
@@ -185,7 +199,7 @@ function render(searchTerm = '') {
    updateStats();
 }
 
-//Barra dinamica
+// Barra dinamica
 function updateStats() {
    const total = film.length;
 
@@ -210,11 +224,14 @@ listaFilm.addEventListener('click', (e) => {
 
       const fullId = e.target.id;
 
+      const isModifica = fullId.startsWith('modifica-');
+      const isSalva = fullId.startsWith('salva-');
       const isToggle = fullId.startsWith('toggle-');
       const isElimina = fullId.startsWith('elimina-');
 
-
       let stringId = fullId.replace('toggle-', '');
+      stringId = stringId.replace('modifica-', '');
+      stringId = stringId.replace('salva-', '');
       stringId = stringId.replace('elimina-', '');
 
       const realId = Number(stringId);
@@ -227,7 +244,6 @@ listaFilm.addEventListener('click', (e) => {
          }
       }
 
-
       if (index !== -1) {
 
          if (isToggle) {
@@ -236,16 +252,84 @@ listaFilm.addEventListener('click', (e) => {
             } else {
                film[index].stato = 'Visto';
             }
+            render(searchBar.value);
          }
 
          if (isElimina) {
             film.splice(index, 1);
+
+            // NOTIFICA ELIMINAZIONE
+            mostraNotifica('Hai eliminato un film', 'errore');
+
+            render(searchBar.value);
          }
 
-         render(searchBar.value);
+         if (isModifica) {
+            const h3 = document.querySelector('#titolo-testo-' + film[index].id);
+            if (h3) {
+               h3.style.display = 'none';
+            }
+
+            const inputTitolo = document.createElement('input');
+            inputTitolo.setAttribute('type', 'text');
+            inputTitolo.setAttribute('id', 'input-titolo-' + film[index].id);
+            inputTitolo.value = film[index].titolo;
+            inputTitolo.style.width = '90%';
+
+            const filmInfo = h3.parentNode;
+            filmInfo.insertBefore(inputTitolo, filmInfo.children[1]);
+
+            e.target.setAttribute('id', 'salva-' + film[index].id);
+            e.target.textContent = 'Salva';
+         }
+
+         if (isSalva) {
+            const inputTitolo = document.querySelector('#input-titolo-' + film[index].id);
+
+            if (inputTitolo && inputTitolo.value.trim() !== '') {
+               film[index].titolo = inputTitolo.value.trim();
+
+               mostraNotifica('Hai modificato un film', 'successo');
+            }
+
+            render(searchBar.value);
+         }
       }
    }
 });
 
+// Funzione notifica
+function mostraNotifica(testo, tipo = "successo") {
+   const notificaDiv = document.getElementById("notifica");
+
+   if (!notificaDiv) return;
+
+   notificaDiv.innerText = testo;
+
+   notificaDiv.style.display = "block";
+   notificaDiv.style.position = "fixed";
+   notificaDiv.style.top = "20px";
+   notificaDiv.style.right = "20px";
+   notificaDiv.style.padding = "12px 24px";
+   notificaDiv.style.borderRadius = "6px";
+   notificaDiv.style.color = "#ffffff";
+   notificaDiv.style.fontWeight = "bold";
+   notificaDiv.style.zIndex = "9999";
+   notificaDiv.style.boxShadow = "0 4px 6px rgba(0,0,0,0.15)";
+
+   if (tipo === "successo") {
+      notificaDiv.style.backgroundColor = "#16a34a"; // Verde
+   } else {
+      notificaDiv.style.backgroundColor = "#dc2626"; // Rosso
+   }
+
+   if (window.timerNotifica) {
+      clearTimeout(window.timerNotifica);
+   }
+
+   window.timerNotifica = setTimeout(() => {
+      notificaDiv.style.display = "none";
+   }, 3000);
+}
 
 render();

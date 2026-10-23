@@ -29,13 +29,6 @@ button {
   background: none;
 }
 
-/* Notifica nascosta di default */
-#notifica {
-  display: none;
-}
-
-/* Scrivi qui sotto i tuoi stili */
-
 /* Header */
 header {
   background: #1a1a1a;
@@ -168,17 +161,14 @@ section h2 {
   color: #888;
 }
 
-/* Nuova regola per la scritta percentuale */
 .percentuale-label {
   float: left;
   width: auto;
   margin-left: 2%;
   margin-top: 0.9rem;
-  /* Allinea verticalmente con la barra */
   margin-right: 1rem;
 }
 
-/* Barra dinamica */
 .progress-container {
   float: left;
   width: 45%;
@@ -187,7 +177,6 @@ section h2 {
   border-radius: 5px;
   overflow: hidden;
   margin-top: 1rem;
-  /* Allinea verticalmente con la scritta */
 }
 
 .progress-bar {
@@ -283,7 +272,6 @@ footer {
 }
 
 /* Tema scuro */
-
 body.dark-mode {
   background: #121212;
   color: #f3f4f6;
@@ -348,4 +336,9 @@ body.dark-mode .badge.visto {
 
 body.dark-mode footer {
   color: #888;
+}
+
+/* Notifica (Base nascosta) */
+#notifica {
+  display: none;
 }

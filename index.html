@@ -1,43 +1,76 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Week Project — Settimana III</title>
-  <link rel="stylesheet" href="style.css">
+  <title>My Movie List</title>
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
 
   <header>
-    <!-- Titolo dell'app + sottotitolo + button tema chiaro/scuro -->
+    <div class="header-content">
+      <div>
+        <h1>My Movie List</h1>
+        <p>Aggiungi o rimuovi i tuoi film</p>
+      </div>
+      <button id="themeToggle" class="btn-secondary">Tema scuro</button>
+    </div>
   </header>
 
   <main>
-
     <section class="form">
-      <!-- Form di inserimento di nuovi elementi -->
+      <h2>Aggiungi un film</h2>
+      <form id="movieForm">
+        <div class="input-group">
+          <input type="text" id="titolo" placeholder="Titolo" required>
+          <input type="text" id="regista" placeholder="Regista" required>
+          <input type="number" id="anno" placeholder="Anno" required>
+          <select id="stato">
+            <option value="Da guardare">Da guardare</option>
+            <option value="Visto">Visto</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-aggiungi">Aggiungi</button>
+      </form>
     </section>
 
     <section class="controlli">
-      <!-- Ricerca live, filtro (select), ordinamento -->
+      <input type="text" id="searchBar" placeholder="Cerca per titolo o regista">
     </section>
 
     <section class="statistiche">
-      <!-- Conteggi e/o barre orizzontali -->
+      <div class="stat-item">
+        <span id="totalCount" class="stat-number">0</span>
+        <span class="stat-label">Totale</span>
+      </div>
+      <div class="stat-item">
+        <span id="watchedCount" class="stat-number">0</span>
+        <span class="stat-label">Visti</span>
+      </div>
+      <div class="stat-item">
+        <span id="toWatchCount" class="stat-number">0</span>
+        <span class="stat-label">Da guardare</span>
+      </div>
+      <div class="progress-container">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+      <span class="stat-label">Percentuale visti</span>
     </section>
 
-    <section class="lista">
-      <!-- Container che render() ricostruisce a ogni cambio di stato -->
+    <section class="lista" id="listaFilm">
     </section>
 
     <div id="notifica"></div>
-
   </main>
 
   <footer>
-    <!-- Autore, anno -->
+    <p>My Movie List — Alessandro Lainà — Epicode Full Stack AI 2026</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="assets/js/script.js"></script>
 </body>
+
 </html>

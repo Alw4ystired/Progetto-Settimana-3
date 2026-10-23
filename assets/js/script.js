@@ -19,6 +19,44 @@ REGOLE
 
 /* SCRIVI QUI LA TUA RISPOSTA */
 
+const listaFilm = [
+   {
+   nome: 'Le ali della libertà',
+   regista: 'Frank Darabont',
+   anno: '1994',
+   id: Date.now()
+
+},
+   {
+   nome: 'Il padrino',
+   regista: 'Francis Ford Coppola',
+   anno: '1972',
+   id: Date.now()
+
+},
+   {
+   nome: 'Il cavaliere oscuro',
+   regista: 'Christopher Nolan',
+   anno: '2008',
+   id: Date.now()
+
+},
+   {
+   nome: 'Pulp Fiction',
+   regista: 'Quentin Tarantino',
+   anno: '1994',
+   id: Date.now()
+
+},
+   {
+   nome: 'Inception',
+   regista: 'Christopher Nolan',
+   anno: '2010',
+   id: Date.now()
+
+},
+]
+
 
 /* RENDER()
    Una sola funzione che ridipinge la lista. A ogni chiamata:
@@ -124,3 +162,5 @@ REGOLE
 */
 
 /* SCRIVI QUI LA TUA RISPOSTA */
+
+

@@ -35,3 +35,159 @@ button {
 }
 
 /* Scrivi qui sotto i tuoi stili */
+
+header {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 2rem 1rem;
+  overflow: hidden;
+}
+
+.header-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.header-title {
+  float: left;
+}
+
+#themeToggle {
+  float: right;
+  margin-top: 0.5rem;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+}
+
+#themeToggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.2rem;
+}
+
+header p {
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+/* Main */
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+section {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px black;
+  margin-bottom: 1.5rem;
+}
+
+section h2 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: #111;
+}
+
+/* Form */
+.input-group {
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.input-group input,
+.input-group select {
+  float: left;
+  width: 24%;
+  margin-right: 1%;
+  padding: 0.6rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  background: #f3f4f6;
+  color: #111;
+}
+
+.input-group input:last-child,
+.input-group select:last-child {
+  margin-right: 0;
+}
+
+.btn-aggiungi {
+  background: #1e3a5f;
+  color: #e8e8e8;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+
+.btn-aggiungi:hover {
+  background: #162c47;
+}
+
+/* Ricerca */
+#searchBar {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  background: #f3f4f6;
+  color: #111;
+}
+
+/* Statistiche */
+.statistiche {
+  overflow: hidden;
+}
+
+.stat-item {
+  float: left;
+  width: 15%;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.stat-number {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #1e3a5f;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.statistiche .stat-label {
+  float: left;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+/* Lista film */
+.lista {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px black;
+  margin-bottom: 1.5rem;
+}
+
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 2rem;
+  color: #888;
+  font-size: 0.8rem;
+}

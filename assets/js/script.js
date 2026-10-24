@@ -52,6 +52,7 @@ const listaFilm = document.querySelector('#listaFilm');
 const searchBar = document.querySelector('#searchBar');
 const filterStato = document.querySelector('#filterStato');
 const themeToggle = document.querySelector('#themeToggle');
+const sortOrdine = document.querySelector('#sortOrdine');
 
 const totalCount = document.querySelector('#totalCount');
 const watchedCount = document.querySelector('#watchedCount');
@@ -95,21 +96,30 @@ movieForm.addEventListener('submit', (e) => {
 
    mostraNotifica('Hai aggiunto un nuovo film', 'successo');
 
-   render(searchBar.value, filterStato.value);
+
+   render(searchBar.value, filterStato.value, sortOrdine.value);
 });
 
 // Ricerca live
 searchBar.addEventListener('input', (e) => {
-   render(e.target.value, filterStato.value);
+
+   render(e.target.value, filterStato.value, sortOrdine.value);
 });
 
 // Filtro per stato
 filterStato.addEventListener('change', (e) => {
-   render(searchBar.value, e.target.value);
+
+   render(searchBar.value, e.target.value, sortOrdine.value);
 });
 
+sortOrdine.addEventListener('change', (e) => {
+   render(searchBar.value, filterStato.value, e.target.value);
+});
+
+
+
 // Lista film e statistiche
-function render(searchTerm = '', statoFiltro = 'Tutti') {
+function render(searchTerm = '', statoFiltro = 'Tutti', ordine = 'titolo-az') {
    // Filtro combinato (testo + stato)
    const filteredFilms = film.filter((f) => {
       const titoloOk = f.titolo.toLowerCase().includes(searchTerm.toLowerCase());
@@ -123,9 +133,27 @@ function render(searchTerm = '', statoFiltro = 'Tutti') {
          statoOk = true;
       }
 
-      // Il film passa solo se supera entrambi i controlli
       return testoOk && statoOk;
    });
+
+   if (ordine === 'titolo-az') {
+      filteredFilms.sort((a, b) => {
+         const titoloA = a.titolo.toLowerCase();
+         const titoloB = b.titolo.toLowerCase();
+
+         if (titoloA < titoloB) {
+            return -1;
+         }
+         if (titoloA > titoloB) {
+            return 1;
+         }
+         return 0;
+      });
+   } else if (ordine === 'anno-crescente') {
+      filteredFilms.sort((a, b) => a.anno - b.anno);
+   } else if (ordine === 'anno-decrescente') {
+      filteredFilms.sort((a, b) => b.anno - a.anno);
+   }
 
    listaFilm.textContent = '';
 
@@ -267,7 +295,8 @@ listaFilm.addEventListener('click', (e) => {
             } else {
                film[index].stato = 'Visto';
             }
-            render(searchBar.value, filterStato.value);
+
+            render(searchBar.value, filterStato.value, sortOrdine.value);
          }
 
          if (isElimina) {
@@ -275,7 +304,7 @@ listaFilm.addEventListener('click', (e) => {
 
             mostraNotifica('Hai eliminato un film', 'errore');
 
-            render(searchBar.value, filterStato.value);
+            render(searchBar.value, filterStato.value, sortOrdine.value);
          }
 
          if (isModifica) {
@@ -306,7 +335,7 @@ listaFilm.addEventListener('click', (e) => {
                mostraNotifica('Hai modificato un film', 'successo');
             }
 
-            render(searchBar.value, filterStato.value);
+            render(searchBar.value, filterStato.value, sortOrdine.value);
          }
       }
    }
@@ -345,6 +374,5 @@ function mostraNotifica(testo, tipo = "successo") {
       notificaDiv.style.display = "none";
    }, 3000);
 }
-
 
 render();

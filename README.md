@@ -1,17 +1,19 @@
 # Progetto-Settimana-3
-Pagina web per gestire una lista di film permettendo di aggiungerli, segnarli come "visti" e cercarli.
+Una pagina web per tenere traccia dei film che voglio vedere e di quelli che ho già visto. Si possono aggiungere, segnare come "visti", modificarli, cercarli e filtrarli.
 
-Tecnologie Utilizzate (Tech Stack):
-- HTML5 (semantico)
+Tecnologie Utilizzate:
+- HTML5: con tag semantici (header, main, section, footer) per struttura e accessibilità.
 
-- CSS3 (Box Model, Float, temi con classi)
+- CSS: layout costruito con Box Model e float. Il tema chiaro/scuro è gestito con una classe sul body.
 
-- JavaScript ES6+ (Vanilla,)
+- JavaScript ES6+
 
-L'applicazione si basa sul pattern Stato → Render → Eventi.
+La pagina funziona con un ciclo semplice:
 
-Lo Stato: Un array chiamato film contiene tutti i dati.
+- Lo stato: un array chiamato film contiene tutti i film. Ogni film ha titolo, regista, anno, id e stato ("Visto" o "Da guardare").
 
-Il Render: La funzione render() legge l'array e ricostruisce l'interfaccia HTML da zero (usando createElement e appendChild).
+- Il render: ogni volta che qualcosa cambia, chiamo render(). Questa funzione svuota la lista e la ricostruisce da zero, leggendo l'array. Uso createElement e appendChild invece di innerHTML per evitare problemi di sicurezza con i dati inseriti dall'utente.
 
-Gli Eventi: Le azioni dell'utente (submit, click, input) modificano l'array e richiamano render().
+- Gli eventi: submit del form, click sui bottoni, input nella barra di ricerca, change sulle select. Ogni evento modifica l'array e poi richiama render().
+
+In pratica: stato → render → eventi → stato.

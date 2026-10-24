@@ -127,11 +127,9 @@ section h2 {
   background: #162c47;
 }
 
-/* Ricerca e Filtro */
-
 #searchBar {
   float: left;
-  width: 74%;     
+  width: 58%;       
   margin-right: 1%;
   padding: 0.6rem;
   border: 1px solid #e5e7eb;
@@ -142,7 +140,19 @@ section h2 {
 
 #filterStato {
   float: left;
-  width: 24%;
+  width: 19%;       
+  margin-right: 1%;
+  padding: 0.6rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  background: #f3f4f6;
+  color: #111;
+}
+
+/* Menu ordinamento */
+#sortOrdine {
+  float: left;
+  width: 20%;
   margin-right: 0;
   padding: 0.6rem;
   border: 1px solid #e5e7eb;
@@ -311,7 +321,8 @@ body.dark-mode section h2 {
 body.dark-mode .input-group input,
 body.dark-mode .input-group select,
 body.dark-mode #searchBar,
-body.dark-mode #filterStato {
+body.dark-mode #filterStato,
+body.dark-mode #sortOrdine {  
   background: #121212;
   border-color: #333;
   color: #f3f4f6;
